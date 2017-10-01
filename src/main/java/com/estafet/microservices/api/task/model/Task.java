@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -63,9 +66,10 @@ public class Task {
 		throw new RuntimeException("Task must be completed to reopen.");
 	}
 
-	public Task claim() {
+	public Task claim(String remainingUpdated) {
 		if ("Not Started".equals(status)) {
-			status = "In Progress";
+			this.status = "In Progress";
+			this.remainingUpdated = remainingUpdated;
 			return this;
 		}
 		throw new RuntimeException("Task needs to be not started to claim it.");
@@ -147,8 +151,15 @@ public class Task {
 		return storyId;
 	}
 
-	public void setStoryId(Integer storyId) {
+	public void init(Integer storyId) {
 		this.storyId = storyId;
+		this.remainingHours = initialHours;
+	}
+	
+	@JsonIgnore
+	public Story getStory() {
+		return new RestTemplate().getForObject(System.getenv("STORY_API_SERVICE_URI") + "/story/{id}",
+				Story.class, storyId);
 	}
 
 }

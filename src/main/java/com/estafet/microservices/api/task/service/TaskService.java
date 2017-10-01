@@ -13,6 +13,9 @@ import com.estafet.microservices.api.task.model.Task;
 public class TaskService {
 
 	@Autowired
+	private SprintService SprintService;
+		
+	@Autowired
 	private TaskDAO taskDAO;
 
 	@Transactional(readOnly = true)
@@ -27,7 +30,7 @@ public class TaskService {
 
 	@Transactional
 	public Task createTask(int storyId, Task task) {
-		task.setStoryId(storyId);
+		task.init(storyId);
 		return taskDAO.createTask(task);
 	}
 
@@ -39,12 +42,14 @@ public class TaskService {
 
 	@Transactional
 	public Task claimTask(int taskId) {
-		return updateTask(getTask(taskId).claim());
+		Task task = getTask(taskId);
+		String firstDay = SprintService.getFirstSprintDay(task.getStory().getSprintId());
+		return updateTask(task.claim(firstDay));
 	}
 
 	@Transactional
-	public Task updateRemainingTaskHours(Task updated) {
-		Task task = taskDAO.getTask(updated.getId());
+	public Task updateRemainingTaskHours(int taskId, Task updated) {
+		Task task = taskDAO.getTask(taskId);
 		task.setRemainingHours(updated.getRemainingHours(), updated.getRemainingUpdated());
 		return taskDAO.updateTask(task);
 	}

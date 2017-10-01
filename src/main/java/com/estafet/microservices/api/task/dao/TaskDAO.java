@@ -34,7 +34,7 @@ public class TaskDAO {
 	}
 
 	public Task createTask(Task task) {
-		entityManager.merge(task);
+		entityManager.persist(task);
 		newTaskProducer.sendMessage(task);
 		return task;
 	}

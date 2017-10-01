@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,9 +38,9 @@ public class TaskController {
 		return new ResponseEntity(taskService.createTask(id, task), HttpStatus.OK);
 	}
 	
-	@PostMapping("/update-remaining-hours")
-	public ResponseEntity updateTask(@RequestBody Task task) {
-		return new ResponseEntity(taskService.updateRemainingTaskHours(task), HttpStatus.OK);
+	@PutMapping("/task/{id}/remainingHours")
+	public ResponseEntity updateTaskRemainingHours(@PathVariable int id, @RequestBody Task task) {
+		return new ResponseEntity(taskService.updateRemainingTaskHours(id, task), HttpStatus.OK);
 	}
 	
 	@PostMapping("/task/{id}/complete")
