@@ -95,7 +95,7 @@ STORY_API_SERVICE_URI=http://localhost:8080/story-api
 ```
 
 ## Domain Model States
-A story has four states. It can only progress from each state via the specific actions or events illustrated.
+A task has three states. It can only progress from each state via the specific actions or events illustrated.
 
 ![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task/blob/master/TaskStateModel.png)
 
