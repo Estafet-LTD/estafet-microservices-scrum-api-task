@@ -9,12 +9,18 @@ public class Story {
 
 	private Integer sprintId;
 
+	private String status;
+
 	public Integer getId() {
 		return id;
 	}
 
 	public Integer getSprintId() {
 		return sprintId;
+	}
+
+	public String getStatus() {
+		return status;
 	}
 
 }

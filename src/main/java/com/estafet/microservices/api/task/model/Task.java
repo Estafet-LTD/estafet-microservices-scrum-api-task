@@ -47,7 +47,7 @@ public class Task {
 
 	@JoinColumn(name = "STORY_ID", nullable = false)
 	private Integer storyId;
-
+	
 	public Task complete(String remainingUpdated) {
 		if (!"Completed".equals(status)) {
 			this.remainingHours = 0;
@@ -92,6 +92,12 @@ public class Task {
 		initialHours = newTask.getInitialHours() != null ? newTask.getInitialHours() : initialHours;
 		status = newTask.getStatus() != null ? newTask.getStatus() : status;
 		return this;
+	}
+	
+	@JsonIgnore
+	public Story getStory() {
+		return new RestTemplate().getForObject(System.getenv("STORY_API_SERVICE_URI") + "/story/{id}",
+				Story.class, storyId);
 	}
 
 	public Integer getId() {
@@ -154,12 +160,6 @@ public class Task {
 	public void init(Integer storyId) {
 		this.storyId = storyId;
 		this.remainingHours = initialHours;
-	}
-	
-	@JsonIgnore
-	public Story getStory() {
-		return new RestTemplate().getForObject(System.getenv("STORY_API_SERVICE_URI") + "/story/{id}",
-				Story.class, storyId);
 	}
 
 }

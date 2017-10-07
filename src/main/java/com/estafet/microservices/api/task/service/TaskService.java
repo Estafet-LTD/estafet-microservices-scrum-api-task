@@ -31,7 +31,10 @@ public class TaskService {
 	@Transactional
 	public Task createTask(int storyId, Task task) {
 		task.init(storyId);
-		return taskDAO.createTask(task);
+		if (!task.getStory().getStatus().equals("Completed")) {
+			return taskDAO.createTask(task);	
+		}
+		throw new RuntimeException("cannot add task to completed story");
 	}
 
 	@Transactional
