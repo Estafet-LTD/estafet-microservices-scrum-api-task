@@ -1,5 +1,7 @@
 package com.estafet.microservices.api.task.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @Table(name = "TASK")
-public class Task {
+public class Task implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2541772585757576830L;
 
 	@Id
 	@SequenceGenerator(name = "TASK_ID_SEQ", sequenceName = "TASK_ID_SEQ", allocationSize = 1)
