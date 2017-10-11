@@ -1,13 +1,10 @@
 package com.estafet.microservices.api.task.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -16,15 +13,12 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Entity
 @Table(name = "TASK")
-public class Task implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2541772585757576830L;
+public class Task {
 
 	@Id
 	@SequenceGenerator(name = "TASK_ID_SEQ", sequenceName = "TASK_ID_SEQ", allocationSize = 1)
@@ -52,7 +46,7 @@ public class Task implements Serializable {
 	@Column(name = "REMAINING_UPDATED")
 	private String remainingUpdated;
 
-	@JoinColumn(name = "STORY_ID", nullable = false)
+	@Column(name = "STORY_ID", nullable = false)
 	private Integer storyId;
 	
 	public Task complete(String remainingUpdated) {
@@ -167,6 +161,14 @@ public class Task implements Serializable {
 	public void init(Integer storyId) {
 		this.storyId = storyId;
 		this.remainingHours = initialHours;
+	}
+	
+	public String toJSON() {
+		try {
+			return new ObjectMapper().writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

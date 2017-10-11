@@ -13,6 +13,6 @@ public class NewTaskProducer {
 	private JmsTemplate jmsTemplate;
 	
 	public void sendMessage(Task task) {
-		jmsTemplate.convertAndSend("new.task.topic", task);
+		jmsTemplate.convertAndSend("new.task.topic", task.toJSON());
 	}
 }
