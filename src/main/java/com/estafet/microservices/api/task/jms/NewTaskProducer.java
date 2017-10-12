@@ -13,6 +13,7 @@ public class NewTaskProducer {
 	private JmsTemplate jmsTemplate;
 	
 	public void sendMessage(Task task) {
+		jmsTemplate.setPubSubDomain(true);
 		jmsTemplate.convertAndSend("new.task.topic", task.toJSON());
 	}
 }
