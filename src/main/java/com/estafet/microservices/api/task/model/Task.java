@@ -170,5 +170,18 @@ public class Task {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public static Task getAPI() {
+		Task task = new Task();
+		task.id = 1;
+		task.title = "my task";
+		task.description = "my task description";
+		task.initialHours = 3;
+		task.remainingHours = 3;
+		task.remainingUpdated = "2017-10-16 00:00:00";
+		task.storyId = 1;
+		task.status = "Not Started";
+		return task;
+	}
 
 }

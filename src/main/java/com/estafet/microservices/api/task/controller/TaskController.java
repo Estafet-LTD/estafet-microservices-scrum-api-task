@@ -23,6 +23,11 @@ public class TaskController {
 	@Autowired
 	private TaskService taskService;
 	
+	@GetMapping("/api")
+	public Task getAPI() {
+		return Task.getAPI();
+	}
+	
 	@GetMapping("/task/{id}")
 	public Task getTask(@PathVariable int id) {
 		return taskService.getTask(id);
