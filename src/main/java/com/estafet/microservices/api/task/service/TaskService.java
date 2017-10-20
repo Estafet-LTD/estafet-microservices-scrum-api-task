@@ -47,7 +47,8 @@ public class TaskService {
 	public Task claimTask(int taskId) {
 		Task task = getTask(taskId);
 		String firstDay = SprintService.getFirstSprintDay(task.getStory().getSprintId());
-		return updateTask(task.claim(firstDay));
+		updateTask(task.claim(firstDay));
+		return updateRemainingTaskHours(taskId, task);
 	}
 
 	@Transactional
