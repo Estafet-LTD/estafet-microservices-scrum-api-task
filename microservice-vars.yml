@@ -1,7 +1,4 @@
 ---
-# Define the name of the OpenShift project
-project_name: task-api
-
 # Define the name of the microservice
 microservice: task-api
 
@@ -11,9 +8,6 @@ drop_ddl: drop-task-api-db.ddl
 db_url_env: TASK_API_JDBC_URL
 db_user_env: TASK_API_DB_USER
 db_db_env: TASK_API_DB_PASSWORD
-
-service_host: task-api.microservices-scrum.svc 
-service_uri_env: TASK_API_SERVICE_URI
 
 # defines the location of the estafet github (change this if you have forked and want to use another github)
 github: https://github.com/Estafet-LTD
