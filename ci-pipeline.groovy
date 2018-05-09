@@ -26,6 +26,7 @@ node("maven") {
 	}
   	  
 	stage("verify container deployment") {
+		sh "oc set env dc/${microservice} JBOSS_A_MQ_BROKER_URL=tcp://broker-amq-tcp.${project}.svc:61616 -n ${project}"
 		openshiftVerifyDeployment namespace: project, depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "300000"	
 	}
 
@@ -41,6 +42,7 @@ node("maven") {
 			]) {
 			sh "mvn verify -P integration-test"
 		}
+		sh "oc set env dc/${microservice} JBOSS_A_MQ_BROKER_URL=tcp://broker-amq-tcp.${project}.svc:61616 -n ${project}"
 		junit "**/target/failsafe-reports/*.xml"
 	}
 
