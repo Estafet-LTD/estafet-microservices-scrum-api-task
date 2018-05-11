@@ -182,6 +182,7 @@ public class Task {
 		task.title = "my task";
 		task.description = "my task description";
 		task.initialHours = 3;
+		task.setTaskStory(new Story().setId(1));
 		task.remainingHours = 3;
 		task.remainingUpdated = "2017-10-16 00:00:00";
 		task.status = "Not Started";

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,8 +31,14 @@ public class Story {
 	@Column(name = "STATUS", nullable = false)
 	private String status = "Not Started";
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "taskStory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Task> tasks = new HashSet<Task>();
+
+	public Story setId(Integer id) {
+		this.id = id;
+		return this;
+	}
 
 	public Integer getId() {
 		return id;
