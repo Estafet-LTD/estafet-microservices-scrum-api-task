@@ -34,12 +34,10 @@ public abstract class TopicConsumer {
 	}
 
 	public void closeConnection() {
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (JMSException e) {
-				throw new RuntimeException(e);
-			}
+		try {
+			connection.close();
+		} catch (JMSException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
