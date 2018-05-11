@@ -61,13 +61,13 @@ public class ITTaskTest {
 	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testGetStoryTasks() {
 		get("/story/1000/tasks").then()
-			.body("task.id", hasItems(1000, 1001))
-			.body("task.title", hasItems("Task #1", "Task #2"))
-			.body("task.description", hasItems("Task #1", "Task #2"))
-			.body("task.initialHours", hasItems(13, 20))
-			.body("task.remainingHours", hasItems(13, 20))
-			.body("task.status", hasItems("Not Started", "Not Started"))
-			.body("task.storyId", hasItems(1000, 1000));
+			.body("id", hasItems(1000, 1001))
+			.body("title", hasItems("Task #1", "Task #2"))
+			.body("description", hasItems("Task #1", "Task #2"))
+			.body("initialHours", hasItems(13, 20))
+			.body("remainingHours", hasItems(13, 20))
+			.body("status", hasItems("Not Started", "Not Started"))
+			.body("storyId", hasItems(1000, 1000));
 	}
 
 	@Test
