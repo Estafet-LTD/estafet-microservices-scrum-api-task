@@ -58,6 +58,7 @@ public class ITTaskTest {
 	}
 
 	@Test
+	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testGetStoryTasks() {
 		get("/story/1000/tasks").then()
 			.body("task.id", hasItems(1000, 1001))
@@ -70,6 +71,7 @@ public class ITTaskTest {
 	}
 
 	@Test
+	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testCreateTask() throws Exception {
 		given().contentType(ContentType.JSON)
 			.body("{\"title\":\"Task #3\",\"description\":\"Task #3\",\"initialHours\":5}")
@@ -105,16 +107,19 @@ public class ITTaskTest {
 	}
 
 	@Test
+	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testUpdateTaskRemainingHours() {
 		fail("Not yet implemented");
 	}
 
 	@Test
+	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testCompleteTask() {
 		fail("Not yet implemented");
 	}
 
 	@Test
+	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testClaimTask() {
 		fail("Not yet implemented");
 	}
