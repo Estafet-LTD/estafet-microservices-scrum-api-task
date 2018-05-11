@@ -46,7 +46,7 @@ public abstract class TopicConsumer {
 	public String consumeMessage() throws JMSException {
 		Message message = messageConsumer.receive(3000);
 		String text = ((TextMessage) message).getText();
-		System.out.println("" + destination + ":" + text);
+		System.out.println(destination + ":" + text);
 		return text;
 	}
 }

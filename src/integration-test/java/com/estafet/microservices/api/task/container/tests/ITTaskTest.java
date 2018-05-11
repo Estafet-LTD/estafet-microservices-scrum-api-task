@@ -130,16 +130,16 @@ public class ITTaskTest {
 		.then()
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(1001))
-			.body("title", is("Task #3"))
-			.body("description", is("Task #3"))
+			.body("title", is("Task #2"))
+			.body("description", is("Task #2"))
 			.body("initialHours", is(20))
 			.body("remainingHours", is(5))
 			.body("storyId", is(1000));
 		
 		get("/task/1001").then()
 			.body("id", is(1))
-			.body("title", is("Task #3"))
-			.body("description", is("Task #3"))
+			.body("title", is("Task #2"))
+			.body("description", is("Task #2"))
 			.body("initialHours", is(20))
 			.body("remainingHours", is(5))
 			.body("status", is("Not Started"))
@@ -147,8 +147,8 @@ public class ITTaskTest {
 	
 		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
 		assertThat(task.getId(), is(1001));
-		assertThat(task.getTitle(), is("Task #3"));
-		assertThat(task.getDescription(), is("Task #3"));
+		assertThat(task.getTitle(), is("Task #2"));
+		assertThat(task.getDescription(), is("Task #2"));
 		assertThat(task.getInitialHours(), is(20));
 		assertThat(task.getRemainingHours(), is(5));
 		assertThat(task.getStatus(), is("Not Started"));
@@ -166,8 +166,8 @@ public class ITTaskTest {
 		.then()
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(1001))
-			.body("title", is("Task #3"))
-			.body("description", is("Task #3"))
+			.body("title", is("Task #2"))
+			.body("description", is("Task #2"))
 			.body("initialHours", is(20))
 			.body("remainingHours", is(0))
 			.body("status", is("Completed"))
@@ -175,8 +175,8 @@ public class ITTaskTest {
 		
 		get("/task/1001").then()
 			.body("id", is(1))
-			.body("title", is("Task #3"))
-			.body("description", is("Task #3"))
+			.body("title", is("Task #2"))
+			.body("description", is("Task #2"))
 			.body("initialHours", is(20))
 			.body("remainingHours", is(0))
 			.body("status", is("Completed"))
@@ -184,8 +184,8 @@ public class ITTaskTest {
 
 		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
 		assertThat(task.getId(), is(1001));
-		assertThat(task.getTitle(), is("Task #3"));
-		assertThat(task.getDescription(), is("Task #3"));
+		assertThat(task.getTitle(), is("Task #2"));
+		assertThat(task.getDescription(), is("Task #2"));
 		assertThat(task.getInitialHours(), is(20));
 		assertThat(task.getRemainingHours(), is(0));
 		assertThat(task.getStatus(), is("Completed"));
@@ -203,8 +203,8 @@ public class ITTaskTest {
 		.then()
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(1001))
-			.body("title", is("Task #3"))
-			.body("description", is("Task #3"))
+			.body("title", is("Task #2"))
+			.body("description", is("Task #2"))
 			.body("initialHours", is(20))
 			.body("remainingHours", is(0))
 			.body("status", is("Completed"))
@@ -212,8 +212,8 @@ public class ITTaskTest {
 	
 		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
 		assertThat(task.getId(), is(1001));
-		assertThat(task.getTitle(), is("Task #3"));
-		assertThat(task.getDescription(), is("Task #3"));
+		assertThat(task.getTitle(), is("Task #2"));
+		assertThat(task.getDescription(), is("Task #2"));
 		assertThat(task.getInitialHours(), is(20));
 		assertThat(task.getRemainingHours(), is(0));
 		assertThat(task.getStatus(), is("Completed"));
