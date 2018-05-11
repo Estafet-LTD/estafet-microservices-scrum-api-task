@@ -37,11 +37,11 @@ public class ITTaskTest {
 		get("/api").then()
 			.body("id", is(1))
 			.body("title", is("my task"))
-			.body("initialHours", is(12))
-			.body("remainingHours", is(0))
-			.body("status", is("Completed"))
+			.body("initialHours", is(3))
+			.body("remainingHours", is(3))
+			.body("status", is("Not Started"))
 			.body("storyId", is(1))
-			.body("remainingUpdated", is("2017-10-06 00:00:00"));
+			.body("remainingUpdated", is("2017-10-16 00:00:00"));
 	}
 
 	@Test
@@ -51,8 +51,8 @@ public class ITTaskTest {
 			.body("id", is(1000))
 			.body("title", is("Task #1"))
 			.body("description", is("Task #1"))
-			.body("initialHours", is(12))
-			.body("remainingHours", is(0))
+			.body("initialHours", is(13))
+			.body("remainingHours", is(13))
 			.body("status", is("Not Started"))
 			.body("storyId", is(1000));
 	}

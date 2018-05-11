@@ -29,7 +29,7 @@ public class TaskDAO {
 	}
 	
 	public List<Task> getStoryTasks(int storyId) {
-		return entityManager.createQuery("select t from Task t where t.storyId = " + storyId, Task.class)
+		return entityManager.createQuery("select t from Task t where t.taskStory.storyId = " + storyId, Task.class)
 				.getResultList();
 	}
 
