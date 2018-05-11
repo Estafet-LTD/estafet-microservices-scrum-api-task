@@ -11,12 +11,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "TASK")
 public class Task {
@@ -166,7 +167,6 @@ public class Task {
 		return status;
 	}
 
-	@JsonProperty
 	public Integer getStoryId() {
 		return taskStory.getId();
 	}

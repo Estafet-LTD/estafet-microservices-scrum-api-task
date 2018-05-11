@@ -48,23 +48,6 @@ public abstract class TopicProducer {
 		Topic topic = session.createTopic(topicName);
 		return topic;
 	}
-	
-	public String consumeMessage() {
-		try {
-			Topic topic = createTopic();
-			MessageConsumer messageConsumer = session.createConsumer(topic);
-			Message message = messageConsumer.receive(3000);
-			return ((TextMessage) message).getText();
-		} catch (JMSException e) {
-			throw new RuntimeException(e);
-		} finally {
-			try {
-				connection.close();
-				Thread.sleep(3000);
-			} catch (JMSException | InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
+
 
 }
