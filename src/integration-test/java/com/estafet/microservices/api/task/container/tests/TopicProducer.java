@@ -12,13 +12,13 @@ import javax.jms.Topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-public abstract class JMSTopic {
+public abstract class TopicProducer {
 
 	String topicName;
 	Connection connection;
 	Session session;
 	
-	public JMSTopic(String topicName) {
+	public TopicProducer(String topicName) {
 		this.topicName = topicName;
 	}
 

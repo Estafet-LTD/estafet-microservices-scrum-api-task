@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 import java.net.HttpURLConnection;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,9 +28,17 @@ import io.restassured.http.ContentType;
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class })
 public class ITTaskTest {
 
+	NewTaskTopicConsumer newTaskTopicConsumer;
+	
 	@Before
-	public void before() throws Exception {
+	public void before() {
 		RestAssured.baseURI = System.getenv("TASK_API_SERVICE_URI");
+		newTaskTopicConsumer = new NewTaskTopicConsumer();
+	}
+	
+	@After
+	public void after() {
+		newTaskTopicConsumer.closeConnection();
 	}
 
 	@Test
@@ -96,7 +105,7 @@ public class ITTaskTest {
 			.body("status", is("Not Started"))
 			.body("storyId", is(1000));
 		
-		Task task = new ObjectMapper().readValue(NewTaskTopic.consume(), Task.class);
+		Task task = new ObjectMapper().readValue(newTaskTopicConsumer.consumeMessage(), Task.class);
 		assertThat(task.getId(), is(1));
 		assertThat(task.getTitle(), is("Task #1"));
 		assertThat(task.getDescription(), is("Task #1"));
