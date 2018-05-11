@@ -51,8 +51,9 @@ public class Task {
 	@JoinColumn(name = "STORY_ID", nullable = false, referencedColumnName = "STORY_ID")
 	private Story taskStory;
 	
-	public Task() {
+	public Task init() {
 		this.remainingHours = initialHours;
+		return this;
 	}
 	
 	public Task setTaskStory(Story taskStory) {

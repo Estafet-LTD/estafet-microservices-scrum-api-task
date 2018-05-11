@@ -37,7 +37,7 @@ public class TaskService {
 	public Task createTask(int storyId, Task task) {
 		Story story = storyDAO.getStory(storyId);
 		if (!story.getStatus().equals("Completed")) {
-			return taskDAO.createTask(task.setTaskStory(story));	
+			return taskDAO.createTask(task.init().setTaskStory(story));	
 		}
 		throw new RuntimeException("cannot add task to completed story");
 	}
