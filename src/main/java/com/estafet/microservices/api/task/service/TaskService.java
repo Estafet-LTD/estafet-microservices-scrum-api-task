@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.estafet.microservices.api.task.dao.StoryDAO;
 import com.estafet.microservices.api.task.dao.TaskDAO;
+import com.estafet.microservices.api.task.model.Story;
 import com.estafet.microservices.api.task.model.Task;
 
 @Service
@@ -17,6 +19,9 @@ public class TaskService {
 		
 	@Autowired
 	private TaskDAO taskDAO;
+	
+	@Autowired
+	private StoryDAO storyDAO;
 
 	@Transactional(readOnly = true)
 	public Task getTask(int taskId) {
@@ -30,9 +35,9 @@ public class TaskService {
 
 	@Transactional
 	public Task createTask(int storyId, Task task) {
-		task.init(storyId);
-		if (!task.getStory().getStatus().equals("Completed")) {
-			return taskDAO.createTask(task);	
+		Story story = storyDAO.getStory(storyId);
+		if (!story.getStatus().equals("Completed")) {
+			return taskDAO.createTask(task.setTaskStory(story));	
 		}
 		throw new RuntimeException("cannot add task to completed story");
 	}
@@ -62,6 +67,16 @@ public class TaskService {
 		Task task = taskDAO.getTask(taskId);
 		task.complete(remainingUpdated);
 		return taskDAO.updateTask(task);
+	}
+
+	@Transactional
+	public void newStory(Story story) {
+		storyDAO.createStory(story);
+	}
+
+	@Transactional
+	public void updateTask(Story story) {
+		storyDAO.updateStory(story);
 	}
 
 }

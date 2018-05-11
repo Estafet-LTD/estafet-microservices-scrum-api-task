@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<SPRINT STORY_ID="1000" STATUS="Planning"/>
+	<TASK TASK_ID="1000" TITLE="Task #1" DESCRIPTION="Task #1" INITIAL_HOURS="13" REMAINING_HOURS="13" STATUS="Not Started" STORY_ID="1000"/>
+	<TASK TASK_ID="1001" TITLE="Task #2" DESCRIPTION="Task #2" INITIAL_HOURS="20" REMAINING_HOURS="20" STATUS="Not Started" STORY_ID="1000"/>
+</dataset>

@@ -5,10 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -45,10 +45,21 @@ public class Task {
 	@JsonInclude(Include.NON_NULL)
 	@Column(name = "REMAINING_UPDATED")
 	private String remainingUpdated;
-
-	@Column(name = "STORY_ID", nullable = false)
-	private Integer storyId;
 	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "STORY_ID", nullable = false, referencedColumnName = "STORY_ID")
+	private Story taskStory;
+	
+	public Task() {
+		this.remainingHours = initialHours;
+	}
+	
+	public Task setTaskStory(Story taskStory) {
+		this.taskStory = taskStory;
+		return this;
+	}
+
 	public Task complete(String remainingUpdated) {
 		if (!"Completed".equals(status)) {
 			this.remainingHours = 0;
@@ -97,8 +108,7 @@ public class Task {
 	
 	@JsonIgnore
 	public Story getStory() {
-		return new RestTemplate().getForObject(System.getenv("STORY_API_SERVICE_URI") + "/story/{id}",
-				Story.class, storyId);
+		return taskStory;
 	}
 
 	public Integer getId() {
@@ -155,14 +165,9 @@ public class Task {
 	}
 
 	public Integer getStoryId() {
-		return storyId;
+		return taskStory.getId();
 	}
 
-	public void init(Integer storyId) {
-		this.storyId = storyId;
-		this.remainingHours = initialHours;
-	}
-	
 	public String toJSON() {
 		try {
 			return new ObjectMapper().writeValueAsString(this);
@@ -179,7 +184,6 @@ public class Task {
 		task.initialHours = 3;
 		task.remainingHours = 3;
 		task.remainingUpdated = "2017-10-16 00:00:00";
-		task.storyId = 1;
 		task.status = "Not Started";
 		return task;
 	}

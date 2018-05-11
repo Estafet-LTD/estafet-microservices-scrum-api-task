@@ -27,7 +27,7 @@ public class TaskDAO {
 	public Task getTask(int taskId) {
 		return entityManager.find(Task.class, new Integer(taskId));
 	}
-
+	
 	public List<Task> getStoryTasks(int storyId) {
 		return entityManager.createQuery("select t from Task t where t.storyId = " + storyId, Task.class)
 				.getResultList();

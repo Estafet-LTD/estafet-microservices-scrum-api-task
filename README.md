@@ -82,16 +82,15 @@ POST http://task-api/task/1/claim
 
 ## Environment Variables
 ```
-JBOSS_A_MQ_BROKER_URL=tcp://localhost:61616
-JBOSS_A_MQ_BROKER_USER=estafet
-JBOSS_A_MQ_BROKER_PASSWORD=estafet
+JBOSS_A_MQ_BROKER_URL
+JBOSS_A_MQ_BROKER_USER
+JBOSS_A_MQ_BROKER_PASSWORD
 
-TASK_API_JDBC_URL=jdbc:postgresql://localhost:5432/task-api
-TASK_API_DB_USER=postgres
-TASK_API_DB_PASSWORD=welcome1
+TASK_API_JDBC_URL
+TASK_API_DB_USER
+TASK_API_DB_PASSWORD
 
-SPRINT_API_SERVICE_URI=http://localhost:8080/sprint-api
-STORY_API_SERVICE_URI=http://localhost:8080/story-api
+SPRINT_API_SERVICE_URI
 ```
 
 ## Domain Model States
