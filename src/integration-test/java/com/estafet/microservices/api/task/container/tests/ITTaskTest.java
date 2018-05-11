@@ -218,7 +218,6 @@ public class ITTaskTest {
 		assertThat(task.getRemainingHours(), is(0));
 		assertThat(task.getStatus(), is("Completed"));
 		assertThat(task.getStoryId(), is(1000));
-		
 	}
 
 	@Test
