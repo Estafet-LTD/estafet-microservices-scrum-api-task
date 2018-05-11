@@ -15,9 +15,12 @@ public abstract class TopicConsumer {
 
 	Connection connection;
 	MessageConsumer messageConsumer;
-
+	String destination;
+	
+	
 	public TopicConsumer(String destination) {
 		try {
+			this.destination = destination;
 			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(System.getenv("JBOSS_A_MQ_BROKER_URL"));
 			connection = connectionFactory.createConnection(System.getenv("JBOSS_A_MQ_BROKER_USER"),
 					System.getenv("JBOSS_A_MQ_BROKER_PASSWORD"));
@@ -42,6 +45,8 @@ public abstract class TopicConsumer {
 
 	public String consumeMessage() throws JMSException {
 		Message message = messageConsumer.receive(3000);
-		return ((TextMessage) message).getText();
+		String text = ((TextMessage) message).getText();
+		System.out.println("" + destination + ":" + text);
+		return text;
 	}
 }
