@@ -27,8 +27,6 @@ public abstract class TopicConsumer {
 			connection.start();
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
-		} finally {
-			closeConnection();
 		}
 	}
 

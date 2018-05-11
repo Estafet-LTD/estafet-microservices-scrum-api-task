@@ -29,16 +29,19 @@ import io.restassured.http.ContentType;
 public class ITTaskTest {
 
 	NewTaskTopicConsumer newTaskTopicConsumer;
+	UpdatedTaskTopicConsumer updatedTaskTopicConsumer;
 	
 	@Before
 	public void before() {
 		RestAssured.baseURI = System.getenv("TASK_API_SERVICE_URI");
 		newTaskTopicConsumer = new NewTaskTopicConsumer();
+		updatedTaskTopicConsumer = new UpdatedTaskTopicConsumer();
 	}
 	
 	@After
 	public void after() {
 		newTaskTopicConsumer.closeConnection();
+		updatedTaskTopicConsumer.closeConnection();
 	}
 
 	@Test
@@ -82,7 +85,8 @@ public class ITTaskTest {
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testCreateTask() throws Exception {
-		given().contentType(ContentType.JSON)
+		given()
+			.contentType(ContentType.JSON)
 			.body("{\"title\":\"Task #3\",\"description\":\"Task #3\",\"initialHours\":5}")
 			.when()
 				.post("/story/1000/task")
@@ -117,14 +121,104 @@ public class ITTaskTest {
 
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
-	public void testUpdateTaskRemainingHours() {
-		fail("Not yet implemented");
+	public void testUpdateTaskRemainingHours() throws Exception {
+		given()
+			.contentType(ContentType.JSON)
+			.body("{\"remainingHours\":5}")
+		.when()
+			.put("/task/1001/remainingHours")
+		.then()
+			.statusCode(HttpURLConnection.HTTP_OK)
+			.body("id", is(1001))
+			.body("title", is("Task #3"))
+			.body("description", is("Task #3"))
+			.body("initialHours", is(20))
+			.body("remainingHours", is(5))
+			.body("storyId", is(1000));
+		
+		get("/task/1001").then()
+			.body("id", is(1))
+			.body("title", is("Task #3"))
+			.body("description", is("Task #3"))
+			.body("initialHours", is(20))
+			.body("remainingHours", is(5))
+			.body("status", is("Not Started"))
+			.body("storyId", is(1000));
+	
+		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
+		assertThat(task.getId(), is(1001));
+		assertThat(task.getTitle(), is("Task #3"));
+		assertThat(task.getDescription(), is("Task #3"));
+		assertThat(task.getInitialHours(), is(20));
+		assertThat(task.getRemainingHours(), is(5));
+		assertThat(task.getStatus(), is("Not Started"));
+		assertThat(task.getStoryId(), is(1000));		
+	}
+	
+	@Test
+	@DatabaseSetup("ITTaskTest-data.xml")
+	public void testUpdateTaskRemainingHoursComplete() throws Exception {
+		given()
+			.contentType(ContentType.JSON)
+			.body("{\"remainingHours\":0}")
+		.when()
+			.put("/task/1001/remainingHours")
+		.then()
+			.statusCode(HttpURLConnection.HTTP_OK)
+			.body("id", is(1001))
+			.body("title", is("Task #3"))
+			.body("description", is("Task #3"))
+			.body("initialHours", is(20))
+			.body("remainingHours", is(0))
+			.body("status", is("Completed"))
+			.body("storyId", is(1000));
+		
+		get("/task/1001").then()
+			.body("id", is(1))
+			.body("title", is("Task #3"))
+			.body("description", is("Task #3"))
+			.body("initialHours", is(20))
+			.body("remainingHours", is(0))
+			.body("status", is("Completed"))
+			.body("storyId", is(1000));
+
+		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
+		assertThat(task.getId(), is(1001));
+		assertThat(task.getTitle(), is("Task #3"));
+		assertThat(task.getDescription(), is("Task #3"));
+		assertThat(task.getInitialHours(), is(20));
+		assertThat(task.getRemainingHours(), is(0));
+		assertThat(task.getStatus(), is("Completed"));
+		assertThat(task.getStoryId(), is(1000));				
 	}
 
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
-	public void testCompleteTask() {
-		fail("Not yet implemented");
+	public void testCompleteTask() throws Exception {
+		given()
+			.contentType(ContentType.JSON)
+			.body("{\"remainingUpdated\":\"2017-10-16 00:00:00\"}")
+		.when()
+			.put("/task/1001/complete")
+		.then()
+			.statusCode(HttpURLConnection.HTTP_OK)
+			.body("id", is(1001))
+			.body("title", is("Task #3"))
+			.body("description", is("Task #3"))
+			.body("initialHours", is(20))
+			.body("remainingHours", is(0))
+			.body("status", is("Completed"))
+			.body("storyId", is(1000));
+	
+		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
+		assertThat(task.getId(), is(1001));
+		assertThat(task.getTitle(), is("Task #3"));
+		assertThat(task.getDescription(), is("Task #3"));
+		assertThat(task.getInitialHours(), is(20));
+		assertThat(task.getRemainingHours(), is(0));
+		assertThat(task.getStatus(), is("Completed"));
+		assertThat(task.getStoryId(), is(1000));
+		
 	}
 
 	@Test
