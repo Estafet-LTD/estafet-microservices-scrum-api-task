@@ -36,7 +36,7 @@ public class ITTaskTest {
 	public void testGetAPI() {
 		get("/api").then()
 			.body("id", is(1))
-			.body("title", is("this is a task"))
+			.body("title", is("my task"))
 			.body("initialHours", is(12))
 			.body("remainingHours", is(0))
 			.body("status", is("Completed"))
