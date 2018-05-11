@@ -106,8 +106,8 @@ public class ITTaskTest {
 		
 		Task task = new ObjectMapper().readValue(newTaskTopicConsumer.consumeMessage(), Task.class);
 		assertThat(task.getId(), is(1));
-		assertThat(task.getTitle(), is("Task #1"));
-		assertThat(task.getDescription(), is("Task #1"));
+		assertThat(task.getTitle(), is("Task #3"));
+		assertThat(task.getDescription(), is("Task #3"));
 		assertThat(task.getInitialHours(), is(5));
 		assertThat(task.getRemainingHours(), is(5));
 		assertThat(task.getStatus(), is("Not Started"));
@@ -130,7 +130,7 @@ public class ITTaskTest {
 			.body("remainingHours", is(5));
 		
 		get("/task/1001").then()
-			.body("id", is(1))
+			.body("id", is(1001))
 			.body("title", is("Task #2"))
 			.body("description", is("Task #2"))
 			.body("initialHours", is(20))
@@ -164,7 +164,7 @@ public class ITTaskTest {
 			.body("status", is("Completed"));
 		
 		get("/task/1001").then()
-			.body("id", is(1))
+			.body("id", is(1001))
 			.body("title", is("Task #2"))
 			.body("description", is("Task #2"))
 			.body("initialHours", is(20))
