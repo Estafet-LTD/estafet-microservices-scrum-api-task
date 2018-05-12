@@ -247,11 +247,5 @@ public class ITTaskTest {
 			.body("remainingHours", is(5))
 			.body("status", is("Not Started"));
 	}
-	
-	@Test
-	@DatabaseSetup("ITTaskTest-data.xml")
-	public void testUpdatedStoryConsumer() {
-		fail("Not yet implemented");
-	}
 
 }
