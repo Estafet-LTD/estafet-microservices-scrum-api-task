@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import com.estafet.microservices.api.task.model.Task;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
@@ -105,7 +104,7 @@ public class ITTaskTest {
 			.body("remainingHours", is(5))
 			.body("status", is("Not Started"));
 		
-		Task task = new ObjectMapper().readValue(newTaskTopicConsumer.consumeMessage(), Task.class);
+		Task task = newTaskTopicConsumer.consume(Task.class);
 		assertThat(task.getId(), is(1));
 		assertThat(task.getTitle(), is("Task #3"));
 		assertThat(task.getDescription(), is("Task #3"));
@@ -116,7 +115,7 @@ public class ITTaskTest {
 
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
-	public void testUpdateTaskRemainingHours() throws Exception {
+	public void testUpdateTaskRemainingHours() {
 		given()
 			.contentType(ContentType.JSON)
 			.body("{\"remainingHours\":5}")
@@ -138,7 +137,7 @@ public class ITTaskTest {
 			.body("remainingHours", is(5))
 			.body("status", is("Not Started"));
 	
-		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
+		Task task = updatedTaskTopicConsumer.consume(Task.class);
 		assertThat(task.getId(), is(1001));
 		assertThat(task.getTitle(), is("Task #2"));
 		assertThat(task.getDescription(), is("Task #2"));
@@ -149,7 +148,7 @@ public class ITTaskTest {
 	
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
-	public void testUpdateTaskRemainingHoursComplete() throws Exception {
+	public void testUpdateTaskRemainingHoursComplete() {
 		given()
 			.contentType(ContentType.JSON)
 			.body("{\"remainingHours\":0}")
@@ -172,7 +171,7 @@ public class ITTaskTest {
 			.body("remainingHours", is(0))
 			.body("status", is("Completed"));
 
-		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
+		Task task = updatedTaskTopicConsumer.consume(Task.class);
 		assertThat(task.getId(), is(1001));
 		assertThat(task.getTitle(), is("Task #2"));
 		assertThat(task.getDescription(), is("Task #2"));
@@ -198,7 +197,7 @@ public class ITTaskTest {
 			.body("remainingHours", is(0))
 			.body("status", is("Completed"));
 	
-		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
+		Task task = updatedTaskTopicConsumer.consume(Task.class);
 		assertThat(task.getId(), is(1001));
 		assertThat(task.getTitle(), is("Task #2"));
 		assertThat(task.getDescription(), is("Task #2"));
@@ -210,7 +209,7 @@ public class ITTaskTest {
 	@Ignore
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
-	public void testClaimTask() throws Exception {
+	public void testClaimTask() {
 		when()
 			.post("/task/1001/claim")
 		.then()
@@ -222,7 +221,7 @@ public class ITTaskTest {
 			.body("remainingHours", is(20))
 			.body("status", is("In Progress"));
 
-		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
+		Task task = updatedTaskTopicConsumer.consume(Task.class);
 		assertThat(task.getId(), is(1001));
 		assertThat(task.getTitle(), is("Task #2"));
 		assertThat(task.getDescription(), is("Task #2"));

@@ -1,9 +1,10 @@
 package com.estafet.microservices.api.task.container.tests;
 
+import java.io.IOException;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
-import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
@@ -11,12 +12,14 @@ import javax.jms.Topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public abstract class TopicConsumer {
 
 	Connection connection;
 	MessageConsumer messageConsumer;
 	String destination;
-	
+
 	public TopicConsumer(String destination) {
 		try {
 			this.destination = destination;
@@ -40,8 +43,11 @@ public abstract class TopicConsumer {
 		}
 	}
 
-	public String consumeMessage() throws JMSException {
-		Message message = messageConsumer.receive(3000);
-		return ((TextMessage) message).getText();
+	public <T> T consume(Class<T> clazz) {
+		try {
+			return new ObjectMapper().readValue(((TextMessage) messageConsumer.receive(3000)).getText(), clazz);
+		} catch (IOException | JMSException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
