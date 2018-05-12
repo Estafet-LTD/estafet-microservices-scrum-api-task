@@ -10,8 +10,11 @@ node("maven") {
 	}
 
 	stage("build and execute unit tests") {
-		sh "mvn clean test"
-		junit "**/target/surefire-reports/*.xml"
+		try {
+			sh "mvn clean test"
+		} finally {
+			junit "**/target/surefire-reports/*.xml"
+		}
 	}
 
 	stage("update the database schema") {
