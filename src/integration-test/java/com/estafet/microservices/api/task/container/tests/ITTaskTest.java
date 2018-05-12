@@ -187,7 +187,7 @@ public class ITTaskTest {
 			.contentType(ContentType.JSON)
 			.body("{\"remainingUpdated\":\"2017-10-16 00:00:00\"}")
 		.when()
-			.put("/task/1001/complete")
+			.post("/task/1001/complete")
 		.then()
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(1001))
@@ -208,8 +208,25 @@ public class ITTaskTest {
 
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
-	public void testClaimTask() {
-		fail("Not yet implemented");
+	public void testClaimTask() throws Exception {
+		when()
+			.post("/task/1001/claim")
+		.then()
+			.statusCode(HttpURLConnection.HTTP_OK)
+			.body("id", is(1001))
+			.body("title", is("Task #2"))
+			.body("description", is("Task #2"))
+			.body("initialHours", is(20))
+			.body("remainingHours", is(20))
+			.body("status", is("In Progress"));
+
+		Task task = new ObjectMapper().readValue(updatedTaskTopicConsumer.consumeMessage(), Task.class);
+		assertThat(task.getId(), is(1001));
+		assertThat(task.getTitle(), is("Task #2"));
+		assertThat(task.getDescription(), is("Task #2"));
+		assertThat(task.getInitialHours(), is(20));
+		assertThat(task.getRemainingHours(), is(20));
+		assertThat(task.getStatus(), is("In Progress"));
 	}
 	
 	@Test
@@ -234,7 +251,7 @@ public class ITTaskTest {
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testUpdatedStoryConsumer() {
-		UpdatedStoryTopicProducer.send("");
+		fail("Not yet implemented");
 	}
 
 }
