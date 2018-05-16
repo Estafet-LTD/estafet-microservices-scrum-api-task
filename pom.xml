@@ -11,6 +11,62 @@
 		<version>1.5.7.RELEASE</version>
 		<relativePath />
 	</parent>
+	
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<skip.integration.tests>true</skip.integration.tests>
+				<skip.unit.tests>false</skip.unit.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>integration-test</id>
+			<properties>
+				<skip.integration.tests>false</skip.integration.tests>
+				<skip.unit.tests>true</skip.unit.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>releases</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<configuration>
+							<tagNameFormat>v@{project.version}</tagNameFormat>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<releaseProfiles>releases</releaseProfiles>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.5.1</version>
+						<executions>
+							<execution>
+								<id>default-deploy</id>
+								<phase>deploy</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<serverId>nexus-releases</serverId>
+							<nexusUrl>http://nexus.cicd.svc:8081/nexus/</nexusUrl>
+							<skipStaging>true</skipStaging>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>		
+	</profiles>	
+		
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -150,8 +206,7 @@
 							<target>
 								<replace
 									file="${basedir}/target/classes/generate-ddl-application-context.xml">
-									<replacefilter token="#microservice#"
-										value="${microservice}" />
+									<replacefilter token="#microservice#" value="${microservice}" />
 								</replace>
 							</target>
 						</configuration>
@@ -194,7 +249,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<executions>
-					<!-- Add a new source directory to our build -->
 					<execution>
 						<id>add-integration-test-sources</id>
 						<phase>generate-test-sources</phase>
@@ -226,4 +280,22 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://nexus.cicd.svc:8081/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>nexus-releases</id>
+			<url>http://nexus.cicd.svc:8081/nexus/content/repositories/releases</url>
+		</repository>
+	</distributionManagement>
+
+	<scm>
+		<connection>scm:git:https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story.git</connection>
+		<developerConnection>scm:git:https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story.git</developerConnection>
+	  <tag>HEAD</tag>
+  </scm>	
+	
 </project>
