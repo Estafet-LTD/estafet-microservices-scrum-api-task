@@ -41,15 +41,15 @@
 								"value": "amq"
 							},
 							{
-								"name": "STORY_API_DB_PASSWORD",
+								"name": "TASK_API_DB_PASSWORD",
 								"value": "welcome1"
 							},
 							{
-								"name": "STORY_API_DB_USER",
+								"name": "TASK_API_DB_USER",
 								"value": "postgres"
 							},
 							{
-								"name": "STORY_API_JDBC_URL",
+								"name": "TASK_API_JDBC_URL",
 								"value": "jdbc:postgresql://postgresql.test.svc:5432/${microservice}"
 							},
 							{
