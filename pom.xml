@@ -317,8 +317,8 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story.git</connection>
-		<developerConnection>scm:git:https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story.git</developerConnection>
+		<connection>scm:git:https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task.git</connection>
+		<developerConnection>scm:git:https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task.git</developerConnection>
 	  <tag>HEAD</tag>
   </scm>	
 	
