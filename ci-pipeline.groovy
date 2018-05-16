@@ -56,17 +56,15 @@ node("maven") {
 					"TASK_API_SERVICE_URI=http://${microservice}.${project}.svc:8080",
 					"JBOSS_A_MQ_BROKER_URL=tcp://broker-amq-tcp.${project}.svc:61616",
 					"JBOSS_A_MQ_BROKER_USER=amq",
-					"JBOSS_A_MQ_BROKER_PASSWORD=amq"
-				]) {
-				withMaven(mavenSettingsConfig: 'microservices-scrum') {
+					"JBOSS_A_MQ_BROKER_PASSWORD=amq" ]) {
+			withMaven(mavenSettingsConfig: 'microservices-scrum') {
 					try {
 						sh "mvn clean verify -P integration-test"
 					} finally {
 						sh "oc set env dc/${microservice} JBOSS_A_MQ_BROKER_URL=tcp://localhost:61616 -n ${project}"
 					}
-	    		} 
 			}
-		} 
+		}
 	}
 	
 	stage("tag container for testing") {
