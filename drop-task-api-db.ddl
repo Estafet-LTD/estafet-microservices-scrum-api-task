@@ -1,4 +1,4 @@
-alter table TASK drop constraint FK2fjocyiwq3pnx8ihjw323nex0;
+alter table TASK drop constraint TASK_TO_STORY_FK;
 drop table if exists MESSAGE_EVENT cascade;
 drop table if exists STORY cascade;
 drop table if exists TASK cascade;
