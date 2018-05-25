@@ -41,7 +41,7 @@ public class Story {
 
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "SPRINT_ID", nullable = false, referencedColumnName = "SPRINT_ID", foreignKey = @ForeignKey(name = "STORY_TO_SPRINT_FK"))
+	@JoinColumn(name = "SPRINT_ID", nullable = true, referencedColumnName = "SPRINT_ID", foreignKey = @ForeignKey(name = "STORY_TO_SPRINT_FK"))
 	private Sprint storySprint;
 
 	public Story setId(Integer id) {
