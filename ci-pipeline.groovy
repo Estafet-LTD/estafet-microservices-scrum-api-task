@@ -9,12 +9,10 @@ node("maven") {
 		git branch: "master", url: "https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task"
 	}
 
-	stage("build and execute unit tests") {
-		try {
-			sh "mvn clean test"
-		} finally {
-			junit "**/target/surefire-reports/*.xml"
-		}
+	stage("unit tests") {
+		withMaven(mavenSettingsConfig: 'microservices-scrum') {
+	      sh "mvn clean test"
+	    } 
 	}
 
 	stage("update the database schema") {
@@ -35,7 +33,7 @@ node("maven") {
 		openshiftBuild namespace: project, buildConfig: microservice, showBuildLogs: "true",  waitTime: "300000"
 		sh "oc set env dc/${microservice} JBOSS_A_MQ_BROKER_URL=tcp://broker-amq-tcp.${project}.svc:61616 -n ${project}"
 		openshiftVerifyDeployment namespace: project, depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "300000"
-		sleep time:90 
+		sleep time:120 
 	}
 
 	stage("execute the container tests") {
