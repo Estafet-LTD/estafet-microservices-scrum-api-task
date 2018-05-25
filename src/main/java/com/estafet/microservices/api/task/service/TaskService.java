@@ -6,22 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.estafet.microservices.api.task.dao.SprintDAO;
 import com.estafet.microservices.api.task.dao.StoryDAO;
 import com.estafet.microservices.api.task.dao.TaskDAO;
+import com.estafet.microservices.api.task.model.Sprint;
 import com.estafet.microservices.api.task.model.Story;
 import com.estafet.microservices.api.task.model.Task;
 
 @Service
 public class TaskService {
-
-	@Autowired
-	private SprintService SprintService;
 		
 	@Autowired
 	private TaskDAO taskDAO;
 	
 	@Autowired
 	private StoryDAO storyDAO;
+	
+	@Autowired
+	private SprintDAO sprintDAO;
 
 	@Transactional(readOnly = true)
 	public Task getTask(int taskId) {
@@ -51,7 +53,7 @@ public class TaskService {
 	@Transactional
 	public Task claimTask(int taskId) {
 		Task task = getTask(taskId);
-		String firstDay = SprintService.getFirstSprintDay(task.getStory().getSprintId());
+		String firstDay = task.getStory().getStorySprint().getFirstSprintDay();
 		return updateTask(task.claim(firstDay));
 	}
 
@@ -77,6 +79,11 @@ public class TaskService {
 	@Transactional
 	public void updateTask(Story story) {
 		storyDAO.updateStory(story);
+	}
+
+	@Transactional
+	public void newSprint(Sprint sprint) {
+		sprintDAO.createSprint(sprint);
 	}
 
 }
