@@ -206,7 +206,6 @@ public class ITTaskTest {
 		assertThat(task.getStatus(), is("Completed"));
 	}
 
-	@Ignore
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testClaimTask() {
