@@ -231,7 +231,7 @@ public class ITTaskTest {
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testNewStoryConsumer() {
-		NewStoryTopicProducer.send("{\"id\":2000,\"status\":\"Not Started\"}");
+		NewStoryTopicProducer.send("{\"id\":2000,\"status\":\"Not Started\", \"sprintId\":1}");
 		given()
 			.contentType(ContentType.JSON)
 			.body("{\"title\":\"Task #5\",\"description\":\"Task #5\",\"initialHours\":5}")
