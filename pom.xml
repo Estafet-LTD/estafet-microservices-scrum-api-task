@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.estafet.microservices.scrum</groupId>
 	<artifactId>microservices-scrum-task-api</artifactId>
-	<version>0.0.10</version>
+	<version>0.0.11-SNAPSHOT</version>
 	<name>estafet-microservices-scrum-api-task</name>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -300,7 +300,7 @@
 	<scm>
 		<connection>scm:git:https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task.git</connection>
 		<developerConnection>scm:git:https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task.git</developerConnection>
-	  <tag>microservices-scrum-task-api-0.0.10</tag>
+	  <tag>HEAD</tag>
   </scm>	
 	
 </project>
