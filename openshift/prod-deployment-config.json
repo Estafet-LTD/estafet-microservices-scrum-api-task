@@ -86,7 +86,7 @@
 							}
 						],
 						"name": "task-api",
-						"image": "basic-ui:latest",
+						"image": "task-api:latest",
 						"imagePullPolicy": "Always",
 						"ports": [
 							{
