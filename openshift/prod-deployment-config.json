@@ -2,7 +2,8 @@
 	"kind": "DeploymentConfig",
 	"metadata": {
 		"labels": {
-			"app": "task-api"
+			"app": "task-api",
+			"product": "microservices-scrum"
 		},
 		"name": "task-api"
 	},
