@@ -50,7 +50,7 @@
 							},
 							{
 								"name": "TASK_API_JDBC_URL",
-								"value": "jdbc:postgresql://postgresql.prod.svc:5432/task-api"
+								"value": "jdbc:postgresql://postgresql.prod.svc:5432/prod-task-api"
 							},
 							{
 								"name": "JAEGER_SAMPLER_TYPE",

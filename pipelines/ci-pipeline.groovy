@@ -29,7 +29,7 @@ node("maven") {
 
 	stage("execute the container tests") {
 		withEnv(
-				[	"TASK_API_JDBC_URL=jdbc:postgresql://postgresql.${project}.svc:5432/${microservice}", 
+				[	"TASK_API_JDBC_URL=jdbc:postgresql://postgresql.${project}.svc:5432/${project}-${microservice}", 
 					"TASK_API_DB_USER=postgres", 
 					"TASK_API_DB_PASSWORD=welcome1",
 					"TASK_API_SERVICE_URI=http://${microservice}.${project}.svc:8080",
