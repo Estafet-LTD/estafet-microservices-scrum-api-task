@@ -1,5 +1,7 @@
 package com.estafet.microservices.api.task.model;
 
+import java.io.IOException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -172,6 +174,14 @@ public class Task {
 		return taskStory.getId();
 	}
 
+	public static Task fromJSON(String message) {
+		try {
+			return new ObjectMapper().readValue(message, Task.class);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public String toJSON() {
 		try {
 			return new ObjectMapper().writeValueAsString(this);

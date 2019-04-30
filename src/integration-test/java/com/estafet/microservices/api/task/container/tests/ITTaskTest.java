@@ -81,6 +81,7 @@ public class ITTaskTest {
 	@Test
 	@DatabaseSetup("ITTaskTest-data.xml")
 	public void testCreateTask() throws Exception {
+		String body = 
 		given()
 			.contentType(ContentType.JSON)
 			.body("{\"title\":\"Task #3\",\"description\":\"Task #3\",\"initialHours\":5}")
@@ -88,15 +89,17 @@ public class ITTaskTest {
 				.post("/story/1000/task")
 			.then()
 				.statusCode(HttpURLConnection.HTTP_OK)
-				.body("id", is(1))
 				.body("title", is("Task #3"))
 				.body("description", is("Task #3"))
 				.body("initialHours", is(5))
 				.body("remainingHours", is(5))
-				.body("status", is("Not Started"));
+				.body("status", is("Not Started"))
+				.extract().body().asString();
+		
+		Task newTask = Task.fromJSON(body);
 		
 		get("/task/1").then()
-			.body("id", is(1))
+			.body("id", is(newTask.getId()))
 			.body("title", is("Task #3"))
 			.body("description", is("Task #3"))
 			.body("initialHours", is(5))
@@ -104,7 +107,7 @@ public class ITTaskTest {
 			.body("status", is("Not Started"));
 		
 		Task task = newTaskTopicConsumer.consume(Task.class);
-		assertThat(task.getId(), is(1));
+		assertThat(task.getId(), is(newTask.getId()));
 		assertThat(task.getTitle(), is("Task #3"));
 		assertThat(task.getDescription(), is("Task #3"));
 		assertThat(task.getInitialHours(), is(5));
