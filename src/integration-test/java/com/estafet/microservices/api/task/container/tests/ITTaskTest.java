@@ -98,7 +98,7 @@ public class ITTaskTest {
 		
 		Task newTask = Task.fromJSON(body);
 		
-		get("/task/1").then()
+		get("/task/" + newTask.getId()).then()
 			.body("id", is(newTask.getId()))
 			.body("title", is("Task #3"))
 			.body("description", is("Task #3"))
@@ -242,7 +242,6 @@ public class ITTaskTest {
 			.post("/story/2000/task")
 		.then()
 			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", is(2))
 			.body("title", is("Task #5"))
 			.body("description", is("Task #5"))
 			.body("initialHours", is(5))
