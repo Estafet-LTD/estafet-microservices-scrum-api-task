@@ -101,11 +101,11 @@
 						"resources": {
 							"limits": {
 								"cpu": "1000m",
-								"memory": "400Mi"
+								"memory": "600Mi"
 							},
 							"requests": {
 								"cpu": "50m",
-								"memory": "50Mi"
+								"memory": "250Mi"
 							}
 						}
 					}
