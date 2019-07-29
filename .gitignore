@@ -3,3 +3,6 @@
 /release-pipeline.groovy.bak
 /createdb.sh
 /ci-pipeline.groovy.bak
+.project
+.classpath
+.settings/
