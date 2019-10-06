@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +21,15 @@ import com.estafet.microservices.api.task.service.TaskService;
 @RestController
 public class TaskController {
 
+	@Value("${app.version}")
+	private String appVersion;
+	
 	@Autowired
 	private TaskService taskService;
 	
 	@GetMapping("/api")
 	public Task getAPI() {
-		return Task.getAPI();
+		return Task.getAPI(appVersion);
 	}
 	
 	@GetMapping("/task/{id}")

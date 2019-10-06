@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -50,17 +51,20 @@ public class Task {
 	@JsonInclude(Include.NON_NULL)
 	@Column(name = "REMAINING_UPDATED")
 	private String remainingUpdated;
-	
+
+	@Transient
+	private String version;
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "STORY_ID", nullable = false, referencedColumnName = "STORY_ID", foreignKey = @ForeignKey(name = "TASK_TO_STORY_FK"))
 	private Story taskStory;
-	
+
 	public Task init() {
 		this.remainingHours = initialHours;
 		return this;
 	}
-	
+
 	public Task setTaskStory(Story taskStory) {
 		this.taskStory = taskStory;
 		return this;
@@ -111,7 +115,7 @@ public class Task {
 		status = newTask.getStatus() != null ? newTask.getStatus() : status;
 		return this;
 	}
-	
+
 	@JsonIgnore
 	public Story getStory() {
 		return taskStory;
@@ -119,6 +123,10 @@ public class Task {
 
 	public Integer getId() {
 		return id;
+	}
+
+	public String getVersion() {
+		return version;
 	}
 
 	public String getTitle() {
@@ -181,7 +189,7 @@ public class Task {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public String toJSON() {
 		try {
 			return new ObjectMapper().writeValueAsString(this);
@@ -189,8 +197,8 @@ public class Task {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	public static Task getAPI() {
+
+	public static Task getAPI(String version) {
 		Task task = new Task();
 		task.id = 1;
 		task.title = "my task";
@@ -200,6 +208,7 @@ public class Task {
 		task.remainingHours = 3;
 		task.remainingUpdated = "2017-10-16 00:00:00";
 		task.status = "Not Started";
+		task.version = API.getVersion(version);
 		return task;
 	}
 
