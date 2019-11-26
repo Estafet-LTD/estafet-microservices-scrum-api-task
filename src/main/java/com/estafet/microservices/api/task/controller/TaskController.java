@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.estafet.microservices.api.task.model.Task;
 import com.estafet.microservices.api.task.service.TaskService;
 
+import io.opentracing.Tracer;
+
 @SuppressWarnings({ "rawtypes", "unchecked" })
 @RestController
 public class TaskController {
@@ -27,8 +29,12 @@ public class TaskController {
 	@Autowired
 	private TaskService taskService;
 	
+	@Autowired
+	private Tracer tracer;	
+	
 	@GetMapping("/api")
 	public Task getAPI() {
+		tracer.activeSpan().deactivate();
 		return Task.getAPI(appVersion);
 	}
 	
