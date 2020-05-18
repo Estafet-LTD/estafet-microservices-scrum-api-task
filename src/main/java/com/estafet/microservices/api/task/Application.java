@@ -29,7 +29,7 @@ public class Application extends SpringBootServletInitializer {
 
 	@Bean
 	public io.opentracing.Tracer jaegerTracer() {
-		return new com.uber.jaeger.Configuration("task-api",
+		return new com.uber.jaeger.Configuration(System.getenv("JAEGER_SERVICE_NAME"),
 				com.uber.jaeger.Configuration.SamplerConfiguration.fromEnv(),
 				com.uber.jaeger.Configuration.ReporterConfiguration.fromEnv()).getTracer();
 	}

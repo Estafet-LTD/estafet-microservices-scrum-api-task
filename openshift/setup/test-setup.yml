@@ -1,0 +1,6 @@
+setup:
+  - name: create-postgres-db
+    app: task-api
+    repo: estafet-microservices-scrum-api-task
+    db_project: ms-scrum-database
+    reset_db: false
